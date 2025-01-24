@@ -1,0 +1,54 @@
+classDiagram
+    class TollStation {
+        - String name
+        - String city
+        - double totalCollected
+        - List~Vehicle~ vehicles
+        + TollStation(String name, String city)
+        + void calculateToll(Vehicle vehicle)
+        + void addVehicle(Vehicle vehicle)
+        + void printReport()
+        + double getTotalCollected()
+    }
+
+    class Vehicle {
+        <<abstract>>
+        - String licensePlate
+        + Vehicle(String licensePlate)
+        + String getLicensePlate()
+        + abstract double calculateToll()
+    }
+
+    class Car {
+        + Car(String licensePlate)
+        + double calculateToll()
+    }
+
+    class Motorcycle {
+        + Motorcycle(String licensePlate)
+        + double calculateToll()
+    }
+
+    class Truck {
+        - int numAxles
+        + Truck(String licensePlate, int numAxles)
+        + int getNumAxles()
+        + double calculateToll()
+    }
+
+    class TollController {
+        + void addVehicleToTollStation(String type, String licensePlate, int numAxles)
+        + void printTollReport()
+    }
+
+    class TollService {
+        + void processVehicle(TollStation tollStation, Vehicle vehicle)
+        + void generateReport(TollStation tollStation)
+    }
+
+    TollStation --> Vehicle : "contains *"
+    Vehicle <|-- Car
+    Vehicle <|-- Motorcycle
+    Vehicle <|-- Truck
+    TollController --> TollService
+    TollService --> TollStation
